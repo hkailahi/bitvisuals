@@ -1,10 +1,5 @@
 module Main where
 
--- https://rosettacode.org/wiki/Binary_digits#Haskell
--- https://hackage.haskell.org/package/base-4.9.1.0/docs/Data-Bits.html
--- https://www.tutorialspoint.com/java/java_basic_operators.htm
--- https://www.tutorialspoint.com/java/java_bitwise_operators_examples.htm
-
 import Data.List
 import Text.Printf
 import Data.Bits
@@ -52,23 +47,6 @@ fromBinDigits (x:xs) = ( foldl (*) 1 $ x : (replicate (length xs) 2) ) + fromBin
 toBin :: (Integral a, Show a) => a -> [Char]
 toBin 0 = []
 toBin x =  (toBin $ x `div` 2) ++ (show $ x `mod` 2)
-
--- printToBin :: (PrintfArg a, Integral a, Show a) => a -> IO ()
--- printToBin n = putStrLn $ printf "%4d  %14s" n (toBin n)
-
--- two's complement negative has 1 at head
--- bComplement :: Int -> Int
--- bComplement i = i * (negate 1) - 1
---
--- toNegBin :: (Integral a, Show a) => a -> [Char]
--- toNegBin 0 = []
--- toNegBin x = (toBin $ (negate x) `div` 2) ++ (show $ (negate x) `mod` 2)
---
--- toTwosComp :: [Char] -> [Char]
--- toTwosComp c = fmap (\x -> if (x == '0') then '1' else '0') c
---
--- negativeToDigits :: Int -> [Int]
--- negativeToDigits x = toDigits (read (toNegBin x) :: Int)
 
 -- ************************** PRINTING HELPER METHODS ************************** --
 
