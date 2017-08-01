@@ -57,7 +57,15 @@ countSetBits 0 = 0
 countSetBits n = let x = n .&. (n-1)
                  in 1 + countSetBits(x)
 
--- NOTE: All rotation is hardcoded for 12 bit rotation
+hammingDistance :: Int -> Int -> Int
+hammingDistance a b
+  | binLength a == binLength b = countSetBits (xor a b)
+  | otherwise                  = error "Lengths of both strings must be equal."
+  -- ^ Though the first case works for different bit lengths,
+  -- I believe the Hamming Distance definition requires
+  -- the comparison among equal strings
+
+-- NOTE: All rotation methods are hardcoded for 12 bit rotation
 -- Easy to
 
 -- 12 bit rotation
