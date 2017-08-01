@@ -5,6 +5,7 @@ import Text.Printf
 import Data.Bits
 import Control.Monad
 import Control.Applicative
+import Data.Char
 
 type Digits = [Int]
 
@@ -43,6 +44,11 @@ fromBinDigits []     = 0
 fromBinDigits (x:[]) = x
 fromBinDigits (x:xs) = ( foldl (*) 1 $ x : (replicate (length xs) 2) ) + fromBinDigits(xs)
 -- fromBinDigits (x:xs) = (last $ take (length xs + 1) $ iterate (*2) x) + fromBinDigits(xs)
+
+fromBinString :: String -> Int
+fromBinString []     = 0
+fromBinString (x:[]) = digitToInt x
+fromBinString (x:xs) = ( foldl (*) 1 $ (digitToInt x) : (replicate (length xs) 2) ) + fromBinString(xs)
 
 matchZeroes :: Int -> Int -> Digits
 matchZeroes a b

@@ -17,6 +17,12 @@ hammingDistance a b
   -- the Hamming Distance definition requires the comparison
   -- to be between equal length strings (matching leading 1's)
 
+reverseBits :: Int -> Int
+reverseBits n = fromBinString $ reverse $ toBin n
+
+oddParity :: Int -> Bool -- Checks if there is an odd number of 1-bits
+oddParity n = ((mod (countSetBits n) 2) /= 0)
+
 -- NOTE: All rotation methods are hardcoded for 12 bit rotation
 
 rotateL12 :: Int -> Int -> Int
