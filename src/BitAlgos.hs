@@ -36,5 +36,27 @@ rotateR12 n d = let rotations = mod d 12
                     -- xxx00000 get first rotations bits
                     front   = shiftL ((shiftR bitMask (bitsize - rotations)) .&. n) (bitsize - rotations)
                     -- 000xxxxx get rest (12 - rotations) bits
-                    back    = (shiftR n rotations)
+                    back    = shiftR n rotations
+                in front .|. back
+
+rotateL12' :: Int -> Int -> Int
+rotateL12' n d = let bitsize     = 12
+                     rotations   = mod d bitsize
+                     bMinusR     = bitsize - rotations
+                     shiftedMask = fromBinDigits $ take (bMinusR) [1,1..]
+                     -- xxx00000 get first (12 - rotations) bits
+                     front       = shiftL (shiftedMask .&. n) rotations
+                     -- 000xxxxx get rest (rotations) bits
+                     back        = shiftR n bMinusR
+                 in front .|. back
+
+rotateR12' :: Int -> Int -> Int
+rotateR12' n d = let bitsize       = 12
+                     rotations     = mod d bitsize
+                     bMinusR       = bitsize - rotations
+                     unshiftedMask = fromBinDigits $ take (rotations) [1,1..]
+                     -- xxx00000 get first (12 - rotations) bits
+                     front         = shiftL (unshiftedMask .&. n) bMinusR
+                     -- 000xxxxx get rest (rotations) bits
+                     back          = shiftR n (rotations)
                 in front .|. back
