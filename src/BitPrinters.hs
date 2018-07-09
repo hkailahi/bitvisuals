@@ -72,9 +72,18 @@ printBinXOR a b = let result = xor a b
 -- << (left shift)
 printBinShiftL :: Int -> Int -> IO ()
 printBinShiftL a b = let result = shiftL a b -- shift a left b times
-                     in putStrLn $ printf "Decimal:\t%-d << %-d = %-d\n------------------------------\nBinary:%+8s << %-d = %+8s" (a) (b) (result) (toBin a) (b) (toBin result)
+                     in putStrLn
+                          $ printf
+                              "Decimal:\t%-d << %-d = %-d\n------------------------------\nBinary:%+8s << %-d = %+8s"
+                              a
+                              b
+                              result
+                              (toBin a)
+                              b
+                              (toBin result)
 
 -- >> (right shift)
 printBinShiftR :: Int -> Int -> IO ()
 printBinShiftR a b = let result = shiftR a b -- shift a right b times
-                     in putStrLn $ printf "Decimal:\t%-d >> %-d = %-d\n------------------------------\nBinary:%+8s >> %-d = %+8s" (a) (b) (result) (toBin a) (b) (toBin result)
+                     in putStrLn
+                          $ printf "Decimal:\t%-d >> %-d = %-d\n------------------------------\nBinary:%+8s >> %-d = %+8s" (a) (b) (result) (toBin a) (b) (toBin result)
