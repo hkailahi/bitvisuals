@@ -10,38 +10,38 @@ import Data.Tuple.Curry (uncurryN)
 import Text.Printf
 
 printMethods :: [String]
-printMethods = [ "- printBinAnd :: Int -> Int -> IO ()"
-               , "- printBinOr :: Int -> Int -> IO ()"
-               , "- printBinXOR :: Int -> Int -> IO ()"
+printMethods = [ "- printBinAnd    :: Int -> Int -> IO ()"
+               , "- printBinOr     :: Int -> Int -> IO ()"
+               , "- printBinXOR    :: Int -> Int -> IO ()"
                , "- printBinShiftR :: Int -> Int -> IO ()"
                , "- printBinShiftL :: Int -> Int -> IO ()"
-               , "- printBinAdd :: Int -> Int -> IO ()"
-               , "- printBinMinus :: Int -> Int -> IO ()"
+               , "- printBinAdd    :: Int -> Int -> IO ()"
+               , "- printBinMinus  :: Int -> Int -> IO ()"
                ]
 bitOps :: [String]
-bitOps = [ "** type Digits = [Int] **"
-         , "- toBin :: Int -> String"
-         , "- toDigits :: Int -> Digits"
-         , "- toBinDigits :: Int -> Digits"
-         , "- binLength :: Int -> Int"
-         , "- digitsToString :: Digits -> String"
-         , "- stringOfDigits :: Int -> String"
+bitOps = [ "-- type Digits = [Int] --"
+         , "- toBinString             :: Int -> String"
+         , "- toDigits          :: Int -> Digits"
+         , "- toBinDigits       :: Int -> Digits"
+         , "- binLength         :: Int -> Int"
+         , "- digitsToString    :: Digits -> String"
+         , "- stringOfDigits    :: Int -> String"
          , "- stringOfBinDigits :: Int -> String"
-         , "- fromDigits :: Digits -> Int"
-         , "- fromBinDigits :: Digits -> Int"
-         , "- fromBinString :: String -> Int"
-         , "- matchZeroes :: Int -> Int -> Digits"
+         , "- fromDigits        :: Digits -> Int"
+         , "- fromBinDigits     :: Digits -> Int"
+         , "- fromBinString     :: String -> Int"
+         , "- matchZeroes       :: Int -> Int -> Digits"
          ]
 
 bitAlgos :: [String]
-bitAlgos = [ "- countSetBits :: Int -> Int"
+bitAlgos = [ "- countSetBits    :: Int -> Int"
            , "- hammingDistance :: Int -> Int -> Int"
-           , "- reverseBits :: Int -> Int"
-           , "- oddParity :: Int -> Bool"
-           , "- rotateL12 :: Int -> Int -> Int"
-           , "- rotateR12 :: Int -> Int -> Int"
-           , "- rotateL12' :: Int -> Int -> Int"
-           , "- rotateR12' :: Int -> Int -> Int"
+           , "- reverseBits     :: Int -> Int"
+           , "- oddParity       :: Int -> Bool"
+           , "- rotateL12       :: Int -> Int -> Int"
+           , "- rotateR12       :: Int -> Int -> Int"
+           , "- rotateL12'      :: Int -> Int -> Int"
+           , "- rotateR12'      :: Int -> Int -> Int"
            ]
 
 printFns :: [String] -> String

@@ -78,12 +78,12 @@ printBinShiftL a b = let result = shiftL a b -- shift a left b times
                               a
                               b
                               result
-                              (toBin a)
+                              (toBinString a)
                               b
-                              (toBin result)
+                              (toBinString result)
 
 -- >> (right shift)
 printBinShiftR :: Int -> Int -> IO ()
 printBinShiftR a b = let result = shiftR a b -- shift a right b times
                      in putStrLn
-                          $ printf "Decimal:\t%-d >> %-d = %-d\n------------------------------\nBinary:%+8s >> %-d = %+8s" (a) (b) (result) (toBin a) (b) (toBin result)
+                          $ printf "Decimal:\t%-d >> %-d = %-d\n------------------------------\nBinary:%+8s >> %-d = %+8s" (a) (b) (result) (toBinString a) (b) (toBinString result)

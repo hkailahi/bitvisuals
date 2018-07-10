@@ -18,7 +18,7 @@ hammingDistance a b
   -- to be between equal length strings (matching leading 1's)
 
 reverseBits :: Int -> Int
-reverseBits n = fromBinString $ reverse $ toBin n
+reverseBits n = fromBinString $ reverse $ toBinString n
 
 oddParity :: Int -> Bool -- Checks if there is an odd number of 1-bits
 oddParity n = ((mod (countSetBits n) 2) /= 0)
