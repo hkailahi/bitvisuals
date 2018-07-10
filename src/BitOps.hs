@@ -1,7 +1,9 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE TypeApplications #-}
 
 module BitOps
     ( binLength
+    , Digits
     , digitsToString
     , fromBinDigits
     , fromBinString
@@ -13,9 +15,9 @@ module BitOps
 
 import Data.Foldable (foldl')
 import Control.Monad (join)
-import Data.Char (digitToInt)
+import Data.Char (digitToInt, ord, chr)
 
-type Digits = [Int]
+import Internal.BitOps (Digits, toDigits, toDigitsHelper)
 
 -- soon..
 -- newtype BinString = BinString { runBS :: String} deriving (Eq, Show)
@@ -28,59 +30,51 @@ type Digits = [Int]
 -- or I could just fix Digits and make it smart
 -- or actually handle negs w/ 2's-complement stuff
 
-toBinString :: Int -> String
+toBinString :: Word -> String
 toBinString 0 = []
 toBinString x = toBinString (x `div` 2) ++ (show $ x `mod` 2)
 
-toDigits :: Int -> Int -> Digits
-toDigits _ 0    = [0]
-toDigits base x = toDigitsHelper base x
-
-toDigitsHelper :: Int -> Int -> Digits
-toDigitsHelper _ 0    = []
-toDigitsHelper base x =
-  toDigitsHelper base (x `div` base) ++ [x `mod` base]
-
-toDecDigits :: Int -> Digits
+toDecDigits :: Word -> Digits
 toDecDigits = toDigits 10
 
-toBinDigits :: Int -> Digits
+toBinDigits :: Word -> Digits
 toBinDigits = toDigits 2
 
-binLength :: Int -> Int
-binLength = length . toBinString
+binLength :: Word -> Word
+binLength = fromIntegral . length . toBinString
 
 digitsToString :: Digits -> String
 digitsToString = join . (show <$>)
 
-stringOfDigits :: Int -> String
+stringOfDigits :: Word -> String
 stringOfDigits = digitsToString . toDecDigits
 
-stringOfBinDigits :: Int -> String
+stringOfBinDigits :: Word -> String
 stringOfBinDigits = digitsToString . toBinDigits
 
-fromDecDigits :: Digits -> Int
+fromDecDigits :: Digits -> Word
 fromDecDigits []     = 0
 fromDecDigits (x:[]) = x
 -- FIXME lololol
 fromDecDigits (x:xs) = (foldl' (*) 1 $ x : (replicate (length xs) 10)) + fromDecDigits xs
 
-fromBinDigits :: Digits -> Int
+fromBinDigits :: Digits -> Word
 fromBinDigits []     = 0
 fromBinDigits (x:[]) = x
 fromBinDigits (x:xs) = (foldl' (*) 1 $ x : (replicate (length xs) 2) ) + fromBinDigits xs
 
 -- ie "111" to 7, -- "101" to 5
-fromBinString :: String -> Int
+fromBinString :: String -> Word
 fromBinString []     = 0
-fromBinString (x:[]) = digitToInt x
-fromBinString (x:xs) = (foldl' (*) 1 $ (digitToInt x) : (replicate (length xs) 2) ) + fromBinString xs
+fromBinString (x:[]) = fromIntegral $ ord x
+fromBinString (x:xs) = (foldl' (*) 1 $ (fromIntegral $ ord x) : (replicate (length xs) 2) ) + fromBinString xs
 
-matchZeroes :: Int -> Int -> Digits
+matchZeroes :: Word -> Word -> Digits
 matchZeroes a b
   -- returns b with 0s prepended until equal or greater length than a
   | a == 0 && b == 0 = [0]
   | b >= a           = toBinDigits b
   | otherwise        = replicate zeroes 0 ++ (if b == 0 then [] else toBinDigits b)
                          where
-                           zeroes = binLength a - binLength b
+                           zeroes :: Int
+                           zeroes = fromIntegral $ binLength a - binLength b

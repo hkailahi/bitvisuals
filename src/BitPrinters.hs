@@ -1,13 +1,19 @@
-module BitPrinters where
+{-# LANGUAGE ViewPatterns #-}
 
-import BitOps
+module BitPrinters
+    ( printBinAdd, printBinMinus
+    , printBinAnd, printBinOr, printBinXor
+    , printBinShiftL, printBinShiftR
+    ) where
 
-import Text.Printf
-import Data.Bits
+import Data.Bits ((.|.), (.&.), shiftL, shiftR, xor)
+import Text.Printf (printf)
+
+import BitOps (digitsToString, matchZeroes, toBinString)
 
 -- ************************** PRINTING HELPER METHODS ************************** --
 
-printBinOp' :: Int -> Int -> Int -> [String]
+printBinOp' :: Word -> Word -> Word -> [String]
 printBinOp' a b result = let leadingZero x y = digitsToString $ matchZeroes x y
                              a' = leadingZero b a
                              b' = leadingZero a b
@@ -37,12 +43,12 @@ printfFromParamList6 op params = let nAndB = "\t%+5s %+14s\n"
 
 -- ************************** BITWISE OPERATION PRINTING METHODS ************************** --
 
-printBinAdd :: Int -> Int -> IO ()
+printBinAdd :: Word -> Word -> IO ()
 printBinAdd a b = let result = (+) a b
                       params = printBinOp' a b result
                    in printfFromParamList6 "+" params
 
-printBinMinus :: Int -> Int -> IO ()
+printBinMinus :: Word -> Word -> IO ()
 printBinMinus a b = let result -- a must be greater than b, else flip b and a
                           | a >= b    = (-) a b
                           | otherwise = (-) b a
@@ -52,38 +58,40 @@ printBinMinus a b = let result -- a must be greater than b, else flip b and a
                      in printfFromParamList6 "-" params
 
 -- & (bitwise and)
-printBinAnd :: Int -> Int -> IO ()
+printBinAnd :: Word -> Word -> IO ()
 printBinAnd a b = let result = (.&.) a b
                       params = printBinOp' a b result
                    in printfFromParamList6 "&" params
 
 -- | (bitwise or)
-printBinOr :: Int -> Int -> IO ()
+printBinOr :: Word -> Word -> IO ()
 printBinOr a b = let result = (.|.) a b
                      params = printBinOp' a b result
                   in printfFromParamList6 "|" params
 
 -- ^ (bitwise XOR)
-printBinXOR :: Int -> Int -> IO ()
-printBinXOR a b = let result = xor a b
+printBinXor :: Word -> Word -> IO ()
+printBinXor a b = let result = xor a b
                       params = printBinOp' a b result
                    in printfFromParamList6 "^" params
 
 -- << (left shift)
-printBinShiftL :: Int -> Int -> IO ()
-printBinShiftL a b = let result = shiftL a b -- shift a left b times
-                     in putStrLn
-                          $ printf
-                              "Decimal:\t%-d << %-d = %-d\n------------------------------\nBinary:%+8s << %-d = %+8s"
-                              a
-                              b
-                              result
-                              (toBinString a)
-                              b
-                              (toBinString result)
+printBinShiftL :: Word -> Word -> IO ()
+printBinShiftL a (fromIntegral -> b) =
+  let result = shiftL a b -- shift a left b times
+  in putStrLn
+      $ printf
+          "Decimal:\t%-d << %-d = %-d\n------------------------------\nBinary:%+8s << %-d = %+8s"
+          a
+          b
+          result
+          (toBinString a)
+          b
+          (toBinString result)
 
 -- >> (right shift)
-printBinShiftR :: Int -> Int -> IO ()
-printBinShiftR a b = let result = shiftR a b -- shift a right b times
-                     in putStrLn
-                          $ printf "Decimal:\t%-d >> %-d = %-d\n------------------------------\nBinary:%+8s >> %-d = %+8s" (a) (b) (result) (toBinString a) (b) (toBinString result)
+printBinShiftR :: Word -> Word -> IO ()
+printBinShiftR a (fromIntegral -> b) =
+   let result = shiftR a b -- shift a right b times
+   in putStrLn
+        $ printf "Decimal:\t%-d >> %-d = %-d\n------------------------------\nBinary:%+8s >> %-d = %+8s" (a) (b) (result) (toBinString a) (b) (toBinString result)
