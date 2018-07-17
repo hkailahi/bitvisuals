@@ -17,10 +17,12 @@ Loaded GHCi configuration from ~/.ghc/ghci.conf
 [5 of 5] Compiling Welcome          ( ~/bitvisuals/src/Welcome.hs, interpreted )
 Ok, five modules loaded.
 λ: printBinXor 222 111
-	Decimal      Binary
-	  222       11011110
-^	  111       01101111
+  Decimal      Binary
+    222       11011110
+^    111       01101111
 ------------------------------
+    177       10110001
+
 λ:
 ```
 
