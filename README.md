@@ -1,5 +1,7 @@
 # BitVisuals
 
+WARNING - This was my very first haskell project. Beware, there be dragons!
+
 A simple tool for visualizing bitwise manipulation inside the Haskell REPL (GHCi).
 
 ```bash
